@@ -1,1 +1,30 @@
+<%= @post.title %>
+<%= @post.content %>
+<% @post.categories.each do |c| %>
+    <%= c.name %>
+    <% end %>
+
+<% @post.comments.each do |c| %>
+    <%= c.user.username + " says: " + c.content %>
+<% end %>
+
+<% @post.users.uniq.each do |c| %>
+    <%= link_to c.username, c %>
+    <% end %>
+
+    <%= form_for @comment do |f| %>
+        <%= f.label "Content" %>
+        <%= f.text_field :content %>
+        <%= f.hidden_field :post_id, value: @post.id %>
+        <%= f.collection_select :user_id, User.all, :id, :username, prompt: true %>
+          <%= f.fields_for :user, User.new do |user| %>
+            <%= user.text_field :username %>
+        <% end %>
+        <%= f.submit %>
+      <% end %>
+
+
+
+
+
 
